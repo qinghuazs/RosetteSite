@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Rosette</title>
+    <link>https://qinghuazs.github.io/RosetteSite/appcast.xml</link>
+    <description>Rosette 的版本更新</description>
+    <language>zh-cn</language>
+  </channel>
+</rss>
+<!-- sparkle-signatures:
+edSignature: dIWGFzTplTPxsU8he+zqBaUMUl4Ej+aurxtSw68y6Q7DBgFKuGQ3jcBo3Aebd9PR0+sQug3OsHlOenD533gOAg==
+length: 341
+-->
