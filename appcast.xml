@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
   <channel>
     <title>Rosette</title>
-    <link>https://qinghuazs.github.io/RosetteSite/appcast.xml</link>
+    <link>https://getrosette.vercel.app/appcast.xml</link>
     <description>Rosette 的版本更新</description>
     <language>zh-cn</language>
   </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: dIWGFzTplTPxsU8he+zqBaUMUl4Ej+aurxtSw68y6Q7DBgFKuGQ3jcBo3Aebd9PR0+sQug3OsHlOenD533gOAg==
-length: 341
+edSignature: dpY+Gqp63k7tMAKJZ1dialW6+WSRWSEZW/6QksrmGudjpmOdsggUjVdD16v7p5weMuzXszejoY92iOuIhPu6CA==
+length: 331
 -->
