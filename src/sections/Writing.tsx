@@ -124,7 +124,7 @@ export function Writing() {
       <div className="flex flex-col gap-8 rounded-[15px] bg-band px-3 py-8 sm:px-8 sm:py-12 xl:flex-row xl:items-center xl:justify-between xl:gap-8 xl:px-[48px] xl:py-[65px]">
         <div className="flex flex-col gap-[17px] xl:order-2 xl:w-[440px] xl:shrink-0">
           <h2 id="writing-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.327] font-medium tracking-[-0.012em] text-band-heading">
-            成篇自可寄。
+            成篇自可寄
           </h2>
           <p className="max-w-[424px] text-[16px] leading-[31px] text-band-text sm:text-[17px]">
             代码块有语法高亮，表格可以直接编辑。

@@ -84,7 +84,7 @@ export function Files() {
       <div className="wrap flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
         <div className="flex flex-col gap-[17px] lg:w-[463px] lg:shrink-0">
           <h2 id="files-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.327] font-medium tracking-[-0.012em] text-heading">
-            文稿有归处。
+            文稿有归处
           </h2>
           <p className="max-w-[450px] text-[16px] leading-[31px] text-text sm:text-[17px]">
             正文以 .md 保存在你的文件夹，图片也可随文档存放。
