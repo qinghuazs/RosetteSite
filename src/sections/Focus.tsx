@@ -49,7 +49,7 @@ export function Focus() {
         <FocusDemo />
         <div className="flex flex-col gap-[14px] xl:w-[440px] xl:shrink-0">
           <h2 id="focus-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.347] font-medium tracking-[-0.012em] text-heading">
-            只留眼前一段。
+            余墨淡如烟
           </h2>
           <p className="max-w-[429px] text-[16px] leading-[26px] text-text sm:text-[17px]">专注模式淡化其他段落，把注意力留给正在写的这一段。</p>
           <p className="max-w-[429px] text-[16px] leading-6 text-text">开启打字机滚动，输入行始终留在窗口中部。</p>
