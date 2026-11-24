@@ -124,9 +124,9 @@ body {
 }
 
 /* ---------- 动效 ----------
-   打开页面：标题逐字落墨，副标题、按钮、窗口依次升起；窗口里随后演示打字和「光标所及即见原文」（EditorMock.css）。
-   往下滚：各区块第一次进入视野时升起一次；示例卡片第一次看到时演示一遍（专注切换、全文搜索、流程图依次出现）。
-   缓动统一用指数减速，退场快于进场；系统开了「减弱动态效果」时去掉位移、模糊和循环，内容直接显示。
+   重点只有首屏：标题逐字落墨，随后窗口里光标跳一次行（EditorMock.css）。
+   往下滚：示例卡片第一次进入视野时升起；专注卡片切一次专注、搜索命中刷一次高亮。文字、问答、下载区直接显示。
+   缓动统一用指数减速，退场快于进场；系统开了「减弱动态效果」时去掉位移和模糊，内容直接显示。
    动画都只在播放期间生效（fill-mode: backwards），播完不再占着 transform。 */
 
 /* 标题逐字落墨：由晕开、略低到清晰落定 */
@@ -140,11 +140,10 @@ body {
 
 .ink-char {
   display: inline-block;
-  animation: ink-in 1s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: ink-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   animation-delay: var(--d, 0ms);
 }
 
-/* 升起：开场和滚动进入视野共用，距离用 --rise 调 */
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -152,23 +151,7 @@ body {
   }
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-.rise-in {
-  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-  animation-delay: var(--d, 0ms);
-}
-
-.fade-in {
-  animation: fade-in 0.8s ease-out backwards;
-  animation-delay: var(--d, 0ms);
-}
-
-/* 滚动进入视野：带 data-reveal 的块先藏着，进入视野时 useReveal 给它加上 data-revealed */
+/* 示例卡片第一次进入视野时升起：带 data-reveal 的卡片先藏着，进入视野时 useReveal 给它加上 data-revealed */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal]:not([data-revealed]) {
     opacity: 0;
@@ -176,13 +159,6 @@ body {
 
   [data-revealed] {
     animation: rise-in 0.85s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-    animation-delay: var(--d, 0ms);
-  }
-
-  /* 流程图的三步依次出现（切回流程图时也再走一遍） */
-  [data-revealed] .flow-step {
-    --rise: 8px;
-    animation: rise-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
     animation-delay: var(--d, 0ms);
   }
 }
@@ -194,14 +170,14 @@ body {
   }
 }
 
-/* 全文搜索的命中：结果出现后，黄色底从左往右刷过去 */
+/* 全文搜索的命中：卡片第一次露出时，黄色底从左往右刷一次 */
 .search-hit {
   background: linear-gradient(var(--highlight), var(--highlight)) no-repeat 0 0 / 100% 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .search-hit {
-    transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+    transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
@@ -246,9 +222,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ink-char,
-  .rise-in,
-  .fade-in {
+  .ink-char {
     animation: none;
   }
 

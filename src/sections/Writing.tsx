@@ -2,7 +2,6 @@ import { Fragment, useState } from 'react'
 import fileIcon from '../assets/icons/file-15.svg'
 import arrowIcon from '../assets/icons/arrow.svg'
 import { Segmented } from '../components/ui'
-import { motion } from '../components/motion'
 
 type View = 'flow' | 'table' | 'math'
 
@@ -35,8 +34,8 @@ function FlowView() {
       <div className="flex items-center gap-2 sm:gap-[13px]">
         {STEPS.map((step, i) => (
           <Fragment key={step}>
-            {i > 0 && <img src={arrowIcon} alt="" width={20} height={20} className="flow-step shrink-0" style={motion(200 + (i * 2 - 1) * 110)} />}
-            <span style={motion(200 + i * 2 * 110)} className="flow-step min-w-0 flex-1 rounded-[7px] border border-divider bg-wash-strong px-1 py-[13px] text-center text-[14px] leading-[23px] font-medium whitespace-nowrap text-accent sm:px-[9px] sm:text-[15px] xl:w-[134px] xl:flex-none">
+            {i > 0 && <img src={arrowIcon} alt="" width={20} height={20} className="shrink-0" />}
+            <span className="min-w-0 flex-1 rounded-[7px] border border-divider bg-wash-strong px-1 py-[13px] text-center text-[14px] leading-[23px] font-medium whitespace-nowrap text-accent sm:px-[9px] sm:text-[15px] xl:w-[134px] xl:flex-none">
               {step}
             </span>
           </Fragment>
@@ -99,7 +98,7 @@ function WritingDemo() {
   const { title, desc } = CONTENT[view]
 
   return (
-    <div className="flex w-full flex-col gap-3 rounded-[10px] border border-divider bg-card px-4 py-[19px] sm:px-[28px] xl:order-1 xl:h-[368px] xl:w-[641px] xl:shrink-0">
+    <div data-reveal className="flex w-full flex-col gap-3 rounded-[10px] border border-divider bg-card px-4 py-[19px] sm:px-[28px] xl:order-1 xl:h-[368px] xl:w-[641px] xl:shrink-0">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         <span className="flex items-center gap-[7px]">
           <img src={fileIcon} alt="" width={15} height={15} className="shrink-0" />
@@ -128,7 +127,7 @@ function WritingDemo() {
 export function Writing() {
   return (
     <section id="writing" aria-labelledby="writing-title" className="wrap">
-      <div data-reveal className="flex flex-col gap-8 rounded-[15px] bg-band px-3 py-8 sm:px-8 sm:py-12 xl:flex-row xl:items-center xl:justify-between xl:gap-8 xl:px-[48px] xl:py-[65px]">
+      <div className="flex flex-col gap-8 rounded-[15px] bg-band px-3 py-8 sm:px-8 sm:py-12 xl:flex-row xl:items-center xl:justify-between xl:gap-8 xl:px-[48px] xl:py-[65px]">
         <div className="flex flex-col gap-[17px] xl:order-2 xl:w-[440px] xl:shrink-0">
           <h2 id="writing-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.327] font-medium tracking-[-0.012em] text-band-heading">
             成篇自可寄

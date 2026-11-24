@@ -18,7 +18,8 @@ export function armOnFirstView(el: HTMLElement, threshold: number, onView: () =>
   if (box.top < window.innerHeight && box.bottom > 0) return null
   const io = new IntersectionObserver(
     ([entry]) => {
-      if (!entry.isIntersecting) return
+      // 不能只看 isIntersecting：卡片刚露出一角（还没到 threshold）时也会回调一次
+      if (entry.intersectionRatio < threshold) return
       io.disconnect()
       onView()
     },
@@ -29,7 +30,7 @@ export function armOnFirstView(el: HTMLElement, threshold: number, onView: () =>
 }
 
 /**
- * 区块第一次进入视野时升起：带 data-reveal 的元素进入视野后加上 data-revealed，动画写在 styles.css。
+ * 示例卡片第一次进入视野时升起：带 data-reveal 的元素进入视野后加上 data-revealed，动画写在 styles.css。
  * 「减弱动态效果」下 CSS 不隐藏也不动画，这里照常打标记，免得中途改了系统设置后内容藏着出不来。
  */
 export function useReveal() {

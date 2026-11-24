@@ -8,7 +8,7 @@ export function GetRosette() {
   const download = useDownload()
   return (
     <section id="download" aria-labelledby="download-title" className="wrap">
-      <div data-reveal className="flex flex-col items-start gap-6 rounded-[14px] bg-band px-6 py-7 sm:flex-row sm:items-center sm:justify-between sm:pr-[42px] sm:pl-[38px] lg:min-h-[174px] lg:py-6">
+      <div className="flex flex-col items-start gap-6 rounded-[14px] bg-band px-6 py-7 sm:flex-row sm:items-center sm:justify-between sm:pr-[42px] sm:pl-[38px] lg:min-h-[174px] lg:py-6">
         <div className="flex items-center gap-4 sm:gap-[19px]">
           <img src={appIcon} alt="" width={75} height={75} className="size-16 shrink-0 sm:size-[75px]" />
           <div className="flex flex-col gap-[5px]">

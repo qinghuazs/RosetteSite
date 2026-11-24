@@ -76,7 +76,7 @@ export function Focus() {
     <section id="focus" aria-labelledby="focus-title" className="pt-16 pb-6 xl:pt-[81px]">
       <div className="wrap flex flex-col-reverse gap-10 xl:flex-row xl:items-center xl:justify-between xl:gap-12">
         <FocusDemo />
-        <div data-reveal className="flex flex-col gap-[14px] xl:w-[440px] xl:shrink-0">
+        <div className="flex flex-col gap-[14px] xl:w-[440px] xl:shrink-0">
           <h2 id="focus-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.347] font-medium tracking-[-0.012em] text-heading">
             余墨淡如烟
           </h2>
