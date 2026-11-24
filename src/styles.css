@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* 设计变量，取自 Figma「Rosette 官网 · 桌面设计稿」的「完整官网 · A 纸面版」。
+   组件里只用这里的语义色名，不写十六进制颜色（编辑器示意窗口的配色在 EditorMock.css，与应用一致）。 */
+:root {
+  --paper: #f7f8ef;        /* 页面底色 */
+  --card: #fcfdf8;         /* 示例卡片 */
+  --wash-hero: #e5eee0;    /* 首屏编辑器底衬 */
+  --wash-files: #e8eee3;   /* 文件夹示例的外框 */
+  --wash-band: #edf1e7;    /* 「成篇自可寄」整条底色 */
+  --wash-cta: #e7eee2;     /* 「获取 Rosette」卡片 */
+  --wash-row: #e1ebdd;     /* 当前文档那一行 */
+  --wash-step: #e9efe4;    /* 流程图的步骤 */
+  --wash-code: #f0f3eb;    /* 示例里的代码条 */
+
+  --heading: #253e2e;      /* 衬线大标题、卡片标题 */
+  --ink: #25312b;          /* 品牌字、问答的问题 */
+  --text: #4d6051;         /* 正文 */
+  --text-2: #536859;       /* 按钮旁的小字 */
+  --secondary: #58665d;    /* 问答的回答、页脚链接 */
+  --accent: #326a50;       /* 松绿：按钮、强调字 */
+  --accent-hover: #2a5b44;
+  --accent-ink: #345b47;   /* 示例卡片里的文件名、步骤 */
+
+  --line: #d8e1d3;         /* 分隔线、卡片描边 */
+  --line-nav: #dde4d8;     /* 导航下面的分隔线 */
+  --line-button: #cad8cc;  /* 描边按钮 */
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-wash-hero: var(--wash-hero);
+  --color-wash-files: var(--wash-files);
+  --color-wash-band: var(--wash-band);
+  --color-wash-cta: var(--wash-cta);
+  --color-wash-row: var(--wash-row);
+  --color-wash-step: var(--wash-step);
+  --color-wash-code: var(--wash-code);
+  --color-heading: var(--heading);
+  --color-ink: var(--ink);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-line: var(--line);
+  --color-line-nav: var(--line-nav);
+  --color-line-button: var(--line-button);
+
+  /* 中文与界面文字用 Noto Sans SC，大标题用 Noto Serif SC，代码用 Roboto Mono（与设计稿一致）；
+     字体文件随网站打包（@fontsource，按 unicode-range 分片，只下载用到的字），没加载完时先用苹方。 */
+  --font-sans: 'Noto Sans SC Variable', 'Noto Sans SC', -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-serif: 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  --font-mono: 'Roboto Mono', 'SF Mono', ui-monospace, Menlo, 'Noto Sans SC Variable', 'PingFang SC', monospace;
+}
+
+/* 内容区：桌面 1240 宽居中（1440 宽时两边各 100），窄屏留 16 / 32 的边 */
+@utility wrap {
+  width: min(1240px, 100% - 32px);
+  margin-inline: auto;
+  @media (width >= 48rem) {
+    width: min(1240px, 100% - 64px);
+  }
+}
+
+html {
+  background: var(--paper);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: #d4e4d2;
+}

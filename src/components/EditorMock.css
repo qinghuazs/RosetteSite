@@ -1,0 +1,481 @@
+/* 首屏的编辑器示意窗口（Figma 44:294「Rosette 编辑器 · 即时预览」）。
+   设计稿是把 720 宽的界面放大 1.248 倍（898.56 宽）摆在 1240 宽的底衬里，所以尺寸都写成 N × --u：
+   桌面上 --u = 1.248px，与设计稿逐像素一致；底衬变窄时按宽度等比缩小；再窄（手机）改成单栏、--u = 1px、文字换行。
+   配色与应用一致：浅色取设计稿，深色取应用 web/src/editor.css 的深色变量。 */
+
+.mock-stage {
+  container-type: inline-size;
+}
+
+.mock {
+  --u: min(1.248px, 100cqw / 720);
+
+  --m-canvas: #fcfcfa;
+  --m-chrome: #f4f5f1;
+  --m-segment: #f0f5ed;
+  --m-segment-on: #ffffff;
+  --m-sidebar: #edf2eb;
+  --m-field: #ffffff;
+  --m-row-on: #e2eee1;
+  --m-ink: #25312b;
+  --m-secondary: #58665d;
+  --m-accent: #326a50;
+  --m-code: #eef2ed;
+  --m-icon-filter: none;
+
+  width: calc(720 * var(--u));
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: calc(13 * var(--u));
+  background: var(--m-canvas);
+  color: var(--m-ink);
+  box-shadow: 0 14px 38px rgba(39, 69, 54, 0.21);
+  font-family: var(--font-sans);
+  font-size: calc(11 * var(--u));
+  line-height: calc(17 * var(--u));
+  text-align: left;
+}
+
+.mock[data-theme='dark'] {
+  --m-canvas: #1b201e;
+  --m-chrome: #232a26;
+  --m-segment: #1b201e;
+  --m-segment-on: #36403a;
+  --m-sidebar: #202724;
+  --m-field: #2b332d;
+  --m-row-on: #2f3d33;
+  --m-ink: #e3eae4;
+  --m-secondary: #a6b3a8;
+  --m-accent: #9ac9aa;
+  --m-code: #252e27;
+  /* 图标是设计稿导出的深绿描边，深色底上调亮成浅灰绿 */
+  --m-icon-filter: invert(1) hue-rotate(180deg) brightness(1.25);
+  box-shadow: 0 14px 38px rgba(20, 36, 28, 0.32);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mock,
+  .mock-toolbar,
+  .mock-sidebar,
+  .mock-doc,
+  .mock-status,
+  .mock-views button,
+  .mock-search,
+  .mock-row,
+  .mock-code {
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+.mock p {
+  margin: 0;
+}
+
+.mock-icon {
+  display: block;
+  flex: none;
+  filter: var(--m-icon-filter);
+}
+
+/* ---------- 工具栏 ---------- */
+
+.mock-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(11 * var(--u));
+  height: calc(50 * var(--u));
+  padding: calc(8 * var(--u)) calc(15 * var(--u));
+  background: var(--m-chrome);
+}
+
+.mock-title {
+  display: flex;
+  align-items: center;
+  gap: calc(11 * var(--u));
+  min-width: 0;
+}
+
+.mock-controls {
+  display: block;
+  flex: none;
+  width: calc(36 * var(--u));
+  height: calc(8 * var(--u));
+}
+
+.mock-title .mock-icon {
+  width: calc(14 * var(--u));
+  height: calc(14 * var(--u));
+}
+
+.mock-filename {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mock-views {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: calc(2 * var(--u));
+  padding: calc(3 * var(--u));
+  border-radius: calc(8 * var(--u));
+  background: var(--m-segment);
+}
+
+.mock-views button {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  padding: calc(5 * var(--u)) calc(9 * var(--u));
+  border-radius: calc(5 * var(--u));
+  background: transparent;
+  color: var(--m-secondary);
+  font: inherit;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.mock-views button:hover {
+  color: var(--m-ink);
+}
+
+.mock-views button[aria-pressed='true'] {
+  background: var(--m-segment-on);
+  color: var(--m-ink);
+}
+
+/* ---------- 侧栏 ---------- */
+
+.mock-body {
+  display: flex;
+  align-items: stretch;
+}
+
+.mock-sidebar {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: calc(7 * var(--u));
+  width: calc(169 * var(--u));
+  height: calc(390 * var(--u));
+  padding: calc(14 * var(--u)) calc(12 * var(--u));
+  box-sizing: border-box;
+  background: var(--m-sidebar);
+}
+
+.mock-tabs {
+  display: flex;
+  justify-content: center;
+  gap: calc(32 * var(--u));
+  white-space: nowrap;
+}
+
+.mock-tabs .is-on {
+  font-weight: 700;
+}
+
+.mock-tabs span:not(.is-on) {
+  color: var(--m-secondary);
+}
+
+.mock-search {
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--u));
+  padding: calc(5 * var(--u)) calc(7 * var(--u));
+  border-radius: calc(5 * var(--u));
+  background: var(--m-field);
+  color: var(--m-secondary);
+}
+
+.mock-search .mock-icon {
+  width: calc(12 * var(--u));
+  height: calc(12 * var(--u));
+}
+
+.mock-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(2 * var(--u));
+  margin: 0;
+  padding: calc(5 * var(--u)) 0 0;
+  list-style: none;
+}
+
+.mock-row {
+  display: flex;
+  align-items: center;
+  gap: calc(7 * var(--u));
+  padding: calc(7 * var(--u)) calc(8 * var(--u));
+  border-radius: calc(6 * var(--u));
+  white-space: nowrap;
+}
+
+.mock-row .mock-icon {
+  width: calc(13 * var(--u));
+  height: calc(13 * var(--u));
+}
+
+.mock-row.is-on {
+  background: var(--m-row-on);
+  color: var(--m-accent);
+  font-weight: 500;
+}
+
+/* ---------- 文档区 ---------- */
+
+.mock-doc {
+  flex: none;
+  width: calc(551 * var(--u));
+  height: calc(390 * var(--u));
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--m-canvas);
+}
+
+.mock-live {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(16 * var(--u));
+  padding: calc(32 * var(--u)) calc(48 * var(--u)) 0;
+}
+
+.mock-head {
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--u));
+}
+
+.mock-h1 {
+  font-size: calc(29 * var(--u));
+  line-height: calc(40 * var(--u));
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.mock-meta {
+  color: var(--m-secondary);
+}
+
+.mock-p {
+  font-size: calc(14 * var(--u));
+  line-height: calc(20 * var(--u));
+}
+
+.mock-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(7 * var(--u));
+}
+
+.mock-h2 {
+  font-size: calc(19 * var(--u));
+  line-height: calc(28 * var(--u));
+  font-weight: 700;
+}
+
+/* 光标所在的行：加粗的标记 ** 显示出来 */
+.mock-cursor-line {
+  font-size: calc(14 * var(--u));
+  line-height: calc(22 * var(--u));
+}
+
+.mock-cursor-line strong {
+  font-weight: 700;
+}
+
+.mock-mark {
+  font-family: var(--font-mono);
+  line-height: 1;
+  color: var(--m-accent);
+}
+
+.mock-caret {
+  display: inline-block;
+  width: calc(1.5 * var(--u));
+  height: calc(18 * var(--u));
+  margin-inline: 0 calc(0.5 * var(--u));
+  vertical-align: calc(-3.5 * var(--u));
+  background: var(--m-accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mock-caret {
+    animation: mock-blink 1.1s steps(1, end) infinite;
+  }
+}
+
+@keyframes mock-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.mock-code {
+  display: flex;
+  flex-direction: column;
+  gap: calc(4 * var(--u));
+  width: calc(453 * var(--u));
+  box-sizing: border-box;
+  padding: calc(10 * var(--u)) calc(12 * var(--u));
+  border-radius: calc(8 * var(--u));
+  background: var(--m-code);
+}
+
+.mock-code-lang {
+  color: var(--m-secondary);
+}
+
+.mock-code-line {
+  display: flex;
+  font-family: var(--font-mono);
+  font-size: calc(12 * var(--u));
+  line-height: calc(20 * var(--u));
+  white-space: pre;
+}
+
+.mock-code-line .mock-ln {
+  flex: none;
+  width: calc(26 * var(--u));
+  color: var(--m-secondary);
+}
+
+/* 源码视图：等宽字体、左边行号（与应用的源码模式一致） */
+.mock-source {
+  margin: 0;
+  padding: calc(28 * var(--u)) calc(24 * var(--u)) 0 calc(20 * var(--u));
+  font-family: var(--font-mono);
+  font-size: calc(12 * var(--u));
+  line-height: calc(21 * var(--u));
+  list-style: none;
+}
+
+.mock-source li {
+  display: flex;
+  min-height: calc(21 * var(--u));
+}
+
+.mock-source .mock-ln {
+  flex: none;
+  width: calc(28 * var(--u));
+  padding-right: calc(12 * var(--u));
+  text-align: right;
+  color: var(--m-secondary);
+  opacity: 0.8;
+  font-size: calc(11 * var(--u));
+  user-select: none;
+}
+
+.mock-source .mock-src {
+  white-space: pre-wrap;
+}
+
+.mock-source .mock-mark {
+  color: var(--m-secondary);
+}
+
+.mock-source b {
+  font-weight: 700;
+}
+
+/* ---------- 状态栏 ---------- */
+
+.mock-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(12 * var(--u));
+  height: calc(29 * var(--u));
+  padding: 0 calc(14 * var(--u));
+  background: var(--m-chrome);
+  color: var(--m-secondary);
+  white-space: nowrap;
+}
+
+.mock-saved {
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--u));
+}
+
+.mock-saved .mock-icon {
+  width: calc(12 * var(--u));
+  height: calc(12 * var(--u));
+}
+
+/* ---------- 手机：单栏，文字按实际大小换行 ---------- */
+
+@container (width < 640px) {
+  .mock {
+    --u: 1px;
+    width: 100%;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .mock-sidebar,
+  .mock-title .mock-icon,
+  .mock-filename {
+    display: none;
+  }
+
+  .mock-toolbar {
+    height: auto;
+    padding: 10px 12px;
+  }
+
+  .mock-doc {
+    flex: 1 1 auto;
+    width: auto;
+    height: auto;
+    min-height: 330px;
+  }
+
+  .mock-live {
+    gap: 14px;
+    padding: 24px 20px 26px;
+  }
+
+  .mock-h1 {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .mock-p,
+  .mock-cursor-line {
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  .mock-block {
+    align-self: stretch;
+  }
+
+  .mock-code {
+    align-self: stretch;
+    width: auto;
+    overflow-x: auto;
+  }
+
+  .mock-source {
+    padding: 20px 14px 24px 4px;
+  }
+
+  .mock-status {
+    height: auto;
+    padding: 6px 12px;
+  }
+
+  .mock-status-path {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
