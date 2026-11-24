@@ -98,7 +98,7 @@ function WritingDemo() {
           <img src={fileIcon} alt="" width={15} height={15} className="shrink-0" />
           <span className="text-[13px] leading-5 font-medium whitespace-nowrap text-accent">接口限流方案.md</span>
         </span>
-        <Segmented label="排版示例" options={VIEWS} value={view} onChange={setView} selectedWeight="font-bold" itemPadding="px-[7px] sm:px-[9px]" />
+        <Segmented label="排版示例" options={VIEWS} value={view} onChange={setView} selectedWeight="font-bold" itemPadding="px-[9px] sm:px-3" />
       </div>
       <div className="h-px bg-divider" />
       <div className="flex flex-col items-start gap-[9px] xl:h-[209px]">

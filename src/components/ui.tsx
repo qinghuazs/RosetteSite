@@ -44,7 +44,8 @@ export function OutlineButton({ className = '', ...props }: LinkProps) {
 
 /**
  * 示例卡片右上角的切换按钮（Figma「写作视图」「查看不同排版示例」）。
- * 两处的差别只在选中项的字重（专注写作 Medium，技术写作 Bold）和左右内边距（10 / 9，手机上 9 收成 7）。
+ * 两处的差别只在选中项的字重（专注写作 Medium，技术写作 Bold）。每一项高 30、左右 12（技术写作在手机上收成 9，免得挤掉文件名）；
+ * 选中项白底加细阴影，看得出是能按的按钮。
  */
 export function Segmented<T extends string>({
   label,
@@ -52,14 +53,14 @@ export function Segmented<T extends string>({
   value,
   onChange,
   selectedWeight = 'font-medium',
-  itemPadding = 'px-[10px]',
+  itemPadding = 'px-3',
 }: {
   label: string
   options: { value: T; label: string }[]
   value: T
   onChange: (value: T) => void
   selectedWeight?: 'font-medium' | 'font-bold'
-  itemPadding?: 'px-[10px]' | 'px-[7px] sm:px-[9px]'
+  itemPadding?: 'px-3' | 'px-[9px] sm:px-3'
 }) {
   return (
     <div role="group" aria-label={label} className="flex shrink-0 items-center gap-[2px] rounded-[7px] bg-wash-strong p-[3px]">
@@ -71,8 +72,10 @@ export function Segmented<T extends string>({
             type="button"
             aria-pressed={selected}
             onClick={() => onChange(option.value)}
-            className={`rounded-[5px] ${itemPadding} py-1 text-[13px] leading-5 whitespace-nowrap transition-colors ${
-              selected ? `bg-canvas ${selectedWeight} text-heading` : 'cursor-pointer text-text hover:text-heading'
+            className={`rounded-[5px] ${itemPadding} py-[5px] text-[13px] leading-5 whitespace-nowrap transition-colors ${
+              selected
+                ? `bg-paper ${selectedWeight} text-heading shadow-[0_1px_3px_rgba(24,58,42,0.16)]`
+                : 'cursor-pointer text-text hover:bg-paper/50 hover:text-heading'
             }`}
           >
             {option.label}

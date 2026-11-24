@@ -5,7 +5,7 @@
 :root {
   --page: #fafaf5;          /* 页面底色 */
   --card: #f8faf4;          /* 示例卡片 */
-  --canvas: #fcfcfa;        /* 切换按钮选中的一项 */
+  --paper: #ffffff;         /* 切换按钮选中的一项 */
   --selection: #dfeadf;     /* 当前文档那一行 */
   --wash: #eff3eb;          /* 代码条、搜索框、公式 */
   --wash-strong: #e9efe4;   /* 流程图步骤、切换按钮底、表头 */
@@ -35,7 +35,7 @@
 @theme inline {
   --color-page: var(--page);
   --color-card: var(--card);
-  --color-canvas: var(--canvas);
+  --color-paper: var(--paper);
   --color-selection: var(--selection);
   --color-wash: var(--wash);
   --color-wash-strong: var(--wash-strong);
