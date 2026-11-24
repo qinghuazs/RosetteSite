@@ -21,7 +21,7 @@ function FileRow({ name, kind }: { name: string; kind: string }) {
 /** 本地文件夹示例（Figma 53:304） */
 function FolderCard() {
   return (
-    <div className="flex flex-col gap-[7px] rounded-[10px] border border-line-card bg-card px-3 py-[18px] sm:px-[19px]">
+    <div className="flex flex-col gap-[7px] rounded-[10px] border border-divider bg-card px-3 py-[18px] sm:px-[19px]">
       <div className="flex items-center justify-between gap-4 pt-[2px] pb-2">
         <span className="flex items-center gap-[9px]">
           <img src={folder19Icon} alt="" width={19} height={19} className="shrink-0" />
@@ -29,9 +29,9 @@ function FolderCard() {
         </span>
         <span className="truncate text-[13px] leading-5 text-text">~/Documents/项目文档</span>
       </div>
-      <div className="h-px bg-line" />
+      <div className="h-px bg-divider" />
       <div className="flex flex-col gap-[2px]">
-        <div className="rounded-[7px] bg-wash-row">
+        <div className="rounded-[7px] bg-selection">
           <FileRow name="接口限流方案.md" kind="Markdown" />
         </div>
         <FileRow name="发布检查清单.md" kind="Markdown" />
@@ -43,10 +43,10 @@ function FolderCard() {
           <span className="text-[13px] leading-5 text-text">附件文件夹</span>
         </div>
       </div>
-      <div className="h-px bg-line" />
+      <div className="h-px bg-divider" />
       <div className="flex items-center gap-[7px] pt-[3px] pl-3">
         <img src={checkIcon} alt="" width={15} height={15} className="shrink-0" />
-        <span className="text-[13px] leading-5 text-saved">已保存到本地</span>
+        <span className="text-[13px] leading-5 text-text">已保存到本地</span>
       </div>
     </div>
   )
@@ -55,12 +55,12 @@ function FolderCard() {
 /** 文件夹全文搜索示例（Figma 61:464） */
 function SearchCard() {
   return (
-    <div className="flex flex-col gap-2 rounded-[10px] border border-line-card bg-card px-3 py-[14px] sm:px-[18px]">
+    <div className="flex flex-col gap-2 rounded-[10px] border border-divider bg-card px-3 py-[14px] sm:px-[18px]">
       <div className="flex items-center justify-between gap-4">
         <span className="text-[14px] leading-[21px] font-medium text-heading">文件夹全文搜索</span>
         <span className="text-[12px] leading-[18px] text-muted">1 处匹配</span>
       </div>
-      <div className="flex items-center gap-2 rounded-[6px] bg-wash-field px-[9px] py-[6px]">
+      <div className="flex items-center gap-2 rounded-[6px] bg-wash px-[9px] py-[6px]">
         <img src={searchIcon} alt="" width={15} height={15} className="shrink-0" />
         <span className="text-[14px] leading-[21px] text-heading">自动保存</span>
       </div>
@@ -83,7 +83,7 @@ export function Files() {
     <section id="files" aria-labelledby="files-title" className="pt-16 pb-16 lg:pt-[63px] lg:pb-[86px]">
       <div className="wrap flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
         <div className="flex flex-col gap-[17px] lg:w-[463px] lg:shrink-0">
-          <h2 id="files-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.327] font-medium tracking-[-0.012em] text-heading-deep">
+          <h2 id="files-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.327] font-medium tracking-[-0.012em] text-heading">
             文稿有归处。
           </h2>
           <p className="max-w-[450px] text-[16px] leading-[31px] text-text sm:text-[17px]">

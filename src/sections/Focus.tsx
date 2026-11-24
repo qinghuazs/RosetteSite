@@ -16,7 +16,7 @@ function FocusDemo() {
   const others = `transition-colors duration-300 ${focused ? 'text-faded' : ''}`
 
   return (
-    <div className="flex w-full flex-col gap-3 rounded-[12px] border border-line-card bg-card px-4 py-[18px] sm:px-[25px] xl:h-[266px] xl:w-[628px] xl:shrink-0">
+    <div className="flex w-full flex-col gap-3 rounded-[12px] border border-divider bg-card px-4 py-[18px] sm:px-[25px] xl:h-[266px] xl:w-[628px] xl:shrink-0">
       <div className="flex items-center justify-between gap-4">
         <span className="flex min-w-0 items-center gap-[7px]">
           <img src={fileIcon} alt="" width={15} height={15} className="shrink-0" />
@@ -24,7 +24,7 @@ function FocusDemo() {
         </span>
         <Segmented label="写作模式" options={MODES} value={mode} onChange={setMode} />
       </div>
-      <div className="h-px bg-line-card" />
+      <div className="h-px bg-divider" />
       <div className="flex flex-col gap-[11px] pt-[3px] pl-[6px]">
         <p className={`text-[25px] leading-[38px] font-bold ${others} ${focused ? '' : 'text-heading'}`}>接口限流方案</p>
         <p className={`text-[15px] leading-[23px] ${others} ${focused ? '' : 'text-text'}`}>为搜索和导出接口设置独立的请求上限。</p>

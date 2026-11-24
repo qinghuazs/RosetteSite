@@ -1,84 +1,60 @@
 @import "tailwindcss";
 
-/* 设计变量，取自 Figma「Rosette 官网 · 桌面设计稿」的「完整官网 · 纸面精修版」（53:278）。
+/* 设计变量，与 Figma「Rosette 官网」变量集合里的 Color/* 同名（「完整官网 · 优化版」73:459 的颜色都绑定了这些变量）。
    组件里只用这里的语义色名，不写十六进制颜色（编辑器示意窗口的配色在 EditorMock.css，与应用一致）。 */
 :root {
-  --paper: #fafaf5;        /* 页面底色 */
-  --card: #f8faf4;         /* 示例卡片 */
-  --segment: #e7efe4;      /* 示例卡片里的切换按钮底 */
-  --segment-on: #fcfdf8;   /* 切换按钮选中的一项 */
-  --wash-row: #e1ebdd;     /* 当前文档那一行 */
-  --wash-field: #f0f4ec;   /* 搜索框 */
-  --wash-step: #e9efe4;    /* 流程图的步骤 */
-  --wash-code: #eff3eb;    /* 示例里的代码条、公式 */
-  --wash-thead: #e9efe5;   /* 表头 */
-  --wash-cta: #edf2e8;     /* 「获取 Rosette」 */
-  --highlight: #f1e5b9;    /* 搜索命中的词 */
+  --page: #fafaf5;          /* 页面底色 */
+  --card: #f8faf4;          /* 示例卡片 */
+  --canvas: #fcfcfa;        /* 切换按钮选中的一项 */
+  --selection: #dfeadf;     /* 当前文档那一行 */
+  --wash: #eff3eb;          /* 代码条、搜索框、公式 */
+  --wash-strong: #e9efe4;   /* 流程图步骤、切换按钮底、表头 */
+  --highlight: #f1e5b9;     /* 搜索命中 */
 
-  --heading: #253e2e;      /* 衬线大标题、卡片标题 */
-  --heading-deep: #233c2d; /* 首屏、「文稿有归处」「获取 Rosette」的大标题 */
-  --ink: #25312b;          /* 品牌字、问答的问题 */
-  --text: #4d6051;         /* 正文 */
-  --text-hero: #495e50;    /* 首屏副标题 */
-  --text-2: #536859;       /* 按钮旁的小字 */
-  --secondary: #58665d;    /* 问答的回答、页脚链接 */
-  --muted: #65776b;        /* 小标注（Mermaid、几处匹配） */
-  --faded: #87978a;        /* 专注模式里淡化的段落 */
-  --saved: #486658;        /* 已保存到本地 */
-  --accent: #326a50;       /* 松绿：按钮、强调字 */
+  --heading: #253e2e;       /* 衬线大标题、卡片标题 */
+  --ink: #25312b;           /* 品牌字、问答的问题 */
+  --text: #4d6051;          /* 正文 */
+  --secondary: #58665d;     /* 问答的回答、页脚链接、按钮下的小字 */
+  --muted: #65776b;         /* 小标注 */
+  --faded: #87978a;         /* 专注模式里淡化的段落（只用于演示） */
+  --accent: #326a50;        /* 松绿：按钮、强调字、图标 */
   --accent-hover: #2a5b44;
-  --accent-ink: #345b47;   /* 流程图步骤 */
 
-  --band: #294438;         /* 「成篇自可寄」深色底 */
+  --divider: #d8e1d3;       /* 分隔线、卡片描边 */
+  --border-strong: #7f9082; /* 描边按钮边框，对页面底色 3.2:1 */
+
+  --band: #294438;          /* 深色色块（成篇自可寄、下载区） */
   --band-heading: #f3f6ed;
   --band-text: #d7e5d9;
-
-  --line: #d8e1d3;         /* 分隔线 */
-  --line-card: #d9e1d5;    /* 示例卡片描边 */
-  --line-card-soft: #e1e9dc; /* 深色底上的示例卡片描边 */
-  --line-nav: #dbe4d6;     /* 导航下面的分隔线 */
-  --line-hero: #d6dfd0;    /* 首屏纸面底衬 */
-  --line-cta: #dee6d9;
-  --line-button: #cad8cc;  /* 描边按钮 */
+  --button-light: #eaf3e8;  /* 深色底上的按钮（Figma「按钮 / 浅色」） */
+  --forest: #213d31;        /* 深色底上按钮的字 */
 
   color-scheme: light;
 }
 
 @theme inline {
-  --color-paper: var(--paper);
+  --color-page: var(--page);
   --color-card: var(--card);
-  --color-segment: var(--segment);
-  --color-segment-on: var(--segment-on);
-  --color-wash-row: var(--wash-row);
-  --color-wash-field: var(--wash-field);
-  --color-wash-step: var(--wash-step);
-  --color-wash-code: var(--wash-code);
-  --color-wash-thead: var(--wash-thead);
-  --color-wash-cta: var(--wash-cta);
+  --color-canvas: var(--canvas);
+  --color-selection: var(--selection);
+  --color-wash: var(--wash);
+  --color-wash-strong: var(--wash-strong);
   --color-highlight: var(--highlight);
   --color-heading: var(--heading);
-  --color-heading-deep: var(--heading-deep);
   --color-ink: var(--ink);
   --color-text: var(--text);
-  --color-text-hero: var(--text-hero);
-  --color-text-2: var(--text-2);
   --color-secondary: var(--secondary);
   --color-muted: var(--muted);
   --color-faded: var(--faded);
-  --color-saved: var(--saved);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
-  --color-accent-ink: var(--accent-ink);
+  --color-divider: var(--divider);
+  --color-border-strong: var(--border-strong);
   --color-band: var(--band);
   --color-band-heading: var(--band-heading);
   --color-band-text: var(--band-text);
-  --color-line: var(--line);
-  --color-line-card: var(--line-card);
-  --color-line-card-soft: var(--line-card-soft);
-  --color-line-nav: var(--line-nav);
-  --color-line-hero: var(--line-hero);
-  --color-line-cta: var(--line-cta);
-  --color-line-button: var(--line-button);
+  --color-button-light: var(--button-light);
+  --color-forest: var(--forest);
 
   /* 中文与界面文字用 Noto Sans SC，大标题用 Noto Serif SC，代码用 Roboto Mono（与设计稿一致）；
      字体文件随网站打包（@fontsource，按 unicode-range 分片，只下载用到的字），没加载完时先用苹方。 */
@@ -97,7 +73,7 @@
 }
 
 html {
-  background: var(--paper);
+  background: var(--page);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -109,7 +85,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--page);
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

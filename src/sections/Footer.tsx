@@ -1,7 +1,9 @@
+import type { MouseEvent } from 'react'
 import { Brand, OutlineButton } from '../components/ui'
+import { useDownload } from '../components/download'
 import { site } from '../site.config'
 
-type FooterLink = { label: string; href: string; title?: string }
+type FooterLink = { label: string; href: string; title?: string; onClick?: (event: MouseEvent<HTMLAnchorElement>) => void }
 
 /** 页脚的一列链接；width 是设计稿里这一列在桌面上的宽度 */
 function FooterLinks({ title, links, width }: { title: string; links: FooterLink[]; width: string }) {
@@ -11,7 +13,7 @@ function FooterLinks({ title, links, width }: { title: string; links: FooterLink
       <ul className="flex flex-col gap-[10px]">
         {links.map((link) => (
           <li key={link.label}>
-            <a href={link.href} title={link.title} className="block w-fit text-[14px] leading-5 font-medium text-secondary transition-colors hover:text-accent">
+            <a href={link.href} title={link.title} onClick={link.onClick} className="block w-fit text-[14px] leading-5 font-medium text-secondary transition-colors hover:text-accent">
               {link.label}
             </a>
           </li>
@@ -21,10 +23,11 @@ function FooterLinks({ title, links, width }: { title: string; links: FooterLink
   )
 }
 
-/** 页脚（Figma 53:379） */
+/** 页脚（Figma 优化版 73:561） */
 export function Footer() {
+  const download = useDownload()
   return (
-    <footer className="wrap mt-[51px] border-t border-line">
+    <footer className="wrap mt-[51px] border-t border-divider">
       <div className="grid grid-cols-2 gap-x-6 gap-y-8 pt-8 pb-11 lg:flex lg:items-start lg:justify-between">
         <div className="col-span-2 flex flex-col gap-[10px] lg:w-[406px]">
           <Brand />
@@ -35,6 +38,7 @@ export function Footer() {
           width="lg:w-[160px]"
           links={[
             { label: '界面预览', href: '#preview' },
+            { label: '专注写作', href: '#focus' },
             { label: '本地文件', href: '#files' },
             { label: '技术写作', href: '#writing' },
           ]}
@@ -43,7 +47,7 @@ export function Footer() {
           title="下载与帮助"
           width="lg:w-[175px]"
           links={[
-            { label: '获取 Mac 版', href: site.downloadUrl, title: site.downloadTitle },
+            { label: download.label, href: download.href, title: download.title, onClick: download.onClick },
             { label: '版本发布', href: site.releasesPage },
             { label: '常见问题', href: '#faq' },
           ]}

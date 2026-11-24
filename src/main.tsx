@@ -12,6 +12,7 @@ import { Writing } from './sections/Writing'
 import { Faq } from './sections/Faq'
 import { GetRosette } from './sections/GetRosette'
 import { Footer } from './sections/Footer'
+import { Toast } from './components/download'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <GetRosette />
       </main>
       <Footer />
+      <Toast />
     </>
   )
 }

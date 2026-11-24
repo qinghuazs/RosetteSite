@@ -35,13 +35,13 @@ function FlowView() {
         {STEPS.map((step, i) => (
           <Fragment key={step}>
             {i > 0 && <img src={arrowIcon} alt="" width={20} height={20} className="shrink-0" />}
-            <span className="min-w-0 flex-1 rounded-[7px] border border-line bg-wash-step px-1 py-[13px] text-center text-[14px] leading-[23px] font-medium whitespace-nowrap text-accent-ink sm:px-[9px] sm:text-[15px] xl:w-[134px] xl:flex-none">
+            <span className="min-w-0 flex-1 rounded-[7px] border border-divider bg-wash-strong px-1 py-[13px] text-center text-[14px] leading-[23px] font-medium whitespace-nowrap text-accent sm:px-[9px] sm:text-[15px] xl:w-[134px] xl:flex-none">
               {step}
             </span>
           </Fragment>
         ))}
       </div>
-      <p className="flex flex-wrap gap-x-[10px] rounded-[6px] bg-wash-code px-[11px] py-2 text-[12px] leading-[18px]">
+      <p className="flex flex-wrap gap-x-[10px] rounded-[6px] bg-wash px-[11px] py-2 text-[12px] leading-[18px]">
         <span className="text-text">超出配额时</span>
         <span className="font-mono text-accent">HTTP/1.1 429 Too Many Requests</span>
       </p>
@@ -51,14 +51,14 @@ function FlowView() {
 
 function TableView() {
   return (
-    <div role="table" aria-label="接口配额" className="w-full overflow-hidden rounded-[6px] border border-line-card text-[13px] leading-5 text-heading">
-      <div role="row" className={`${tableCols} h-[37px] items-center bg-wash-thead font-bold`}>
+    <div role="table" aria-label="接口配额" className="w-full overflow-hidden rounded-[6px] border border-divider text-[13px] leading-5 text-heading">
+      <div role="row" className={`${tableCols} h-[37px] items-center bg-wash-strong font-bold`}>
         <span role="columnheader">接口</span>
         <span role="columnheader">每分钟配额</span>
         <span role="columnheader">重试等待</span>
       </div>
       {QUOTAS.map((row, i) => (
-        <div key={row.api} role="row" className={`${tableCols} h-[39px] items-center ${i > 0 ? 'border-t border-line-card' : ''}`}>
+        <div key={row.api} role="row" className={`${tableCols} h-[39px] items-center ${i > 0 ? 'border-t border-divider' : ''}`}>
           <span role="cell" className="font-mono whitespace-nowrap">
             {row.api}
           </span>
@@ -72,7 +72,7 @@ function TableView() {
 
 function MathView() {
   return (
-    <div className="flex w-full flex-col items-center gap-2 rounded-[7px] bg-wash-code px-4 py-[11px]">
+    <div className="flex w-full flex-col items-center gap-2 rounded-[7px] bg-wash px-4 py-[11px]">
       <div className="flex items-center gap-3 font-serif font-normal text-heading" role="img" aria-label="r 等于 N 除以 Δt">
         <span className="text-[32px] leading-[35px]">r =</span>
         <span className="flex flex-col items-center gap-px">
@@ -92,7 +92,7 @@ function WritingDemo() {
   const { title, desc } = CONTENT[view]
 
   return (
-    <div className="flex w-full flex-col gap-3 rounded-[10px] border border-line-card-soft bg-card px-4 py-[19px] sm:px-[28px] xl:order-1 xl:h-[368px] xl:w-[641px] xl:shrink-0">
+    <div className="flex w-full flex-col gap-3 rounded-[10px] border border-divider bg-card px-4 py-[19px] sm:px-[28px] xl:order-1 xl:h-[368px] xl:w-[641px] xl:shrink-0">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         <span className="flex items-center gap-[7px]">
           <img src={fileIcon} alt="" width={15} height={15} className="shrink-0" />
@@ -100,7 +100,7 @@ function WritingDemo() {
         </span>
         <Segmented label="排版示例" options={VIEWS} value={view} onChange={setView} selectedWeight="font-bold" itemPadding="px-[7px] sm:px-[9px]" />
       </div>
-      <div className="h-px bg-line-card" />
+      <div className="h-px bg-divider" />
       <div className="flex flex-col items-start gap-[9px] xl:h-[209px]">
         <p className="text-[24px] leading-[33px] font-bold text-heading sm:text-[27px] sm:leading-9">{title}</p>
         <p className="text-[14px] leading-[21px] text-text">{desc}</p>
@@ -108,7 +108,7 @@ function WritingDemo() {
         {view === 'table' && <TableView />}
         {view === 'math' && <MathView />}
       </div>
-      <div className="h-px bg-line-card" />
+      <div className="h-px bg-divider" />
       <div className="flex items-center justify-between text-[12px] leading-[18px]">
         <span className="text-text">导出格式</span>
         <span className="font-medium text-accent">PDF / HTML</span>

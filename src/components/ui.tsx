@@ -27,11 +27,16 @@ export function PrimaryButton({ className = '', ...props }: LinkProps) {
   return <a className={`${buttonBase} bg-accent py-[13px] text-white hover:bg-accent-hover ${className}`} {...props} />
 }
 
+/** 深色底上的按钮（Figma「按钮 / 浅色」） */
+export function LightButton({ className = '', ...props }: LinkProps) {
+  return <a className={`${buttonBase} bg-button-light py-[13px] text-forest hover:bg-band-heading ${className}`} {...props} />
+}
+
 /** 描边按钮（Figma「按钮 / 描边」） */
 export function OutlineButton({ className = '', ...props }: LinkProps) {
   return (
     <a
-      className={`${buttonBase} border border-line-button py-[9px] text-accent hover:border-accent/45 hover:bg-accent/5 ${className}`}
+      className={`${buttonBase} border border-border-strong py-[9px] text-accent hover:border-accent/45 hover:bg-accent/5 ${className}`}
       {...props}
     />
   )
@@ -57,7 +62,7 @@ export function Segmented<T extends string>({
   itemPadding?: 'px-[10px]' | 'px-[7px] sm:px-[9px]'
 }) {
   return (
-    <div role="group" aria-label={label} className="flex shrink-0 items-center gap-[2px] rounded-[7px] bg-segment p-[3px]">
+    <div role="group" aria-label={label} className="flex shrink-0 items-center gap-[2px] rounded-[7px] bg-wash-strong p-[3px]">
       {options.map((option) => {
         const selected = option.value === value
         return (
@@ -67,7 +72,7 @@ export function Segmented<T extends string>({
             aria-pressed={selected}
             onClick={() => onChange(option.value)}
             className={`rounded-[5px] ${itemPadding} py-1 text-[13px] leading-5 whitespace-nowrap transition-colors ${
-              selected ? `bg-segment-on ${selectedWeight} text-heading` : 'cursor-pointer text-text hover:text-heading'
+              selected ? `bg-canvas ${selectedWeight} text-heading` : 'cursor-pointer text-text hover:text-heading'
             }`}
           >
             {option.label}
