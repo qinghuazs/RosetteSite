@@ -1,9 +1,11 @@
+import { useLayoutEffect, useRef, useState } from 'react'
 import fileIcon from '../assets/icons/file.svg'
 import file14Icon from '../assets/icons/file-14.svg'
 import folderIcon from '../assets/icons/folder.svg'
 import folder19Icon from '../assets/icons/folder-19.svg'
 import checkIcon from '../assets/icons/check.svg'
 import searchIcon from '../assets/icons/search.svg'
+import { armOnFirstView, motion } from '../components/motion'
 
 /** Figma 组件「纸面版 / 文件行」 */
 function FileRow({ name, kind }: { name: string; kind: string }) {
@@ -21,7 +23,7 @@ function FileRow({ name, kind }: { name: string; kind: string }) {
 /** 本地文件夹示例（Figma 53:304） */
 function FolderCard() {
   return (
-    <div className="flex flex-col gap-[7px] rounded-[10px] border border-divider bg-card px-3 py-[18px] sm:px-[19px]">
+    <div data-reveal style={motion(120)} className="flex flex-col gap-[7px] rounded-[10px] border border-divider bg-card px-3 py-[18px] sm:px-[19px]">
       <div className="flex items-center justify-between gap-4 pt-[2px] pb-2">
         <span className="flex items-center gap-[9px]">
           <img src={folder19Icon} alt="" width={19} height={19} className="shrink-0" />
@@ -52,25 +54,59 @@ function FolderCard() {
   )
 }
 
-/** 文件夹全文搜索示例（Figma 61:464） */
+/** 搜索框里按输入法整词敲进去的字 */
+const QUERY = ['自动', '保存']
+
+/**
+ * 文件夹全文搜索示例（Figma 61:464）。
+ * 第一次滚进视野时演示一遍：搜索框里敲出「自动保存」，结果升起，命中的字从左往右刷上黄底。
+ * 打开页面时就看得到、或系统开了「减弱动态效果」时，直接是设计稿的静态画面。
+ */
 function SearchCard() {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [typed, setTyped] = useState(QUERY.length)
+  const done = typed === QUERY.length
+
+  useLayoutEffect(() => {
+    const card = cardRef.current
+    if (!card) return
+    const timers: number[] = []
+    const stop = armOnFirstView(card, 0.6, () => {
+      QUERY.forEach((_, i) => timers.push(window.setTimeout(() => setTyped(i + 1), 600 + i * 420)))
+    })
+    if (!stop) return
+    setTyped(0)
+    return () => {
+      stop()
+      timers.forEach((timer) => window.clearTimeout(timer))
+    }
+  }, [])
+
+  const result = `transition-[opacity,translate] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${done ? '' : 'translate-y-1 opacity-0'}`
   return (
-    <div className="flex flex-col gap-2 rounded-[10px] border border-divider bg-card px-3 py-[14px] sm:px-[18px]">
+    <div ref={cardRef} data-reveal style={motion(220)} className="flex flex-col gap-2 rounded-[10px] border border-divider bg-card px-3 py-[14px] sm:px-[18px]">
       <div className="flex items-center justify-between gap-4">
         <span className="text-[14px] leading-[21px] font-medium text-heading">文件夹全文搜索</span>
-        <span className="text-[12px] leading-[18px] text-muted">1 处匹配</span>
+        <span className={`text-[12px] leading-[18px] text-muted transition-opacity duration-300 ${done ? '' : 'opacity-0'}`}>1 处匹配</span>
       </div>
       <div className="flex items-center gap-2 rounded-[6px] bg-wash px-[9px] py-[6px]">
         <img src={searchIcon} alt="" width={15} height={15} className="shrink-0" />
-        <span className="text-[14px] leading-[21px] text-heading">自动保存</span>
+        <span className="flex h-[21px] items-center text-[14px] leading-[21px] text-heading">
+          {QUERY.slice(0, typed).join('')}
+          {done ? null : <span className="text-caret" aria-hidden="true" />}
+        </span>
       </div>
-      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 pt-[3px] text-[13px] leading-5">
+      <div className={`flex flex-wrap items-center justify-between gap-x-4 gap-y-1 pt-[3px] text-[13px] leading-5 ${result}`}>
         <span className="flex items-center gap-[6px]">
           <img src={file14Icon} alt="" width={14} height={14} className="shrink-0" />
           <span className="font-medium text-accent">发布检查清单.md</span>
         </span>
         <span className="text-text">
-          检查<mark className="rounded-[2px] bg-highlight px-[2px] text-heading">自动保存</mark>与异常恢复流程。
+          检查
+          <mark className="search-hit rounded-[2px] px-[2px] text-heading" data-pending={done ? undefined : ''}>
+            自动保存
+          </mark>
+          与异常恢复流程。
         </span>
       </div>
     </div>
@@ -82,7 +118,7 @@ export function Files() {
   return (
     <section id="files" aria-labelledby="files-title" className="pt-16 pb-16 lg:pt-[63px] lg:pb-[86px]">
       <div className="wrap flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
-        <div className="flex flex-col gap-[17px] lg:w-[463px] lg:shrink-0">
+        <div data-reveal className="flex flex-col gap-[17px] lg:w-[463px] lg:shrink-0">
           <h2 id="files-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.327] font-medium tracking-[-0.012em] text-heading">
             文稿有归处
           </h2>

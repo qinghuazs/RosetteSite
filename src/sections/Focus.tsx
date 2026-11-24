@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import fileIcon from '../assets/icons/file-15.svg'
 import { Segmented } from '../components/ui'
+import { armOnFirstView, motion } from '../components/motion'
 
 type Mode = 'normal' | 'focused'
 
@@ -19,28 +20,21 @@ function FocusDemo() {
   const cardRef = useRef<HTMLDivElement>(null)
   const touched = useRef(false)
   const focused = mode === 'focused'
-  const others = `transition-colors duration-500 ease-out ${focused ? 'text-faded' : ''}`
+  const others = `transition-colors duration-700 ease-out ${focused ? 'text-faded' : ''}`
 
   useLayoutEffect(() => {
     const card = cardRef.current
-    if (!card || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const box = card.getBoundingClientRect()
-    if (box.top < window.innerHeight && box.bottom > 0) return // 一打开就看得到（例如从 #focus 进来），保持原样
-    setMode('normal')
+    if (!card) return
     let timer: number | undefined
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return
-        io.disconnect()
-        timer = window.setTimeout(() => {
-          if (!touched.current) setMode('focused')
-        }, 600)
-      },
-      { threshold: 0.6 },
-    )
-    io.observe(card)
+    const stop = armOnFirstView(card, 0.6, () => {
+      timer = window.setTimeout(() => {
+        if (!touched.current) setMode('focused')
+      }, 700)
+    })
+    if (!stop) return
+    setMode('normal')
     return () => {
-      io.disconnect()
+      stop()
       window.clearTimeout(timer)
     }
   }, [])
@@ -51,7 +45,7 @@ function FocusDemo() {
   }
 
   return (
-    <div ref={cardRef} className="flex w-full flex-col gap-3 rounded-[12px] border border-divider bg-card px-4 py-[18px] sm:px-[25px] xl:h-[266px] xl:w-[628px] xl:shrink-0">
+    <div ref={cardRef} data-reveal style={motion(120)} className="flex w-full flex-col gap-3 rounded-[12px] border border-divider bg-card px-4 py-[18px] sm:px-[25px] xl:h-[266px] xl:w-[628px] xl:shrink-0">
       <div className="flex items-center justify-between gap-4">
         <span className="flex min-w-0 items-center gap-[7px]">
           <img src={fileIcon} alt="" width={15} height={15} className="shrink-0" />
@@ -82,7 +76,7 @@ export function Focus() {
     <section id="focus" aria-labelledby="focus-title" className="pt-16 pb-6 xl:pt-[81px]">
       <div className="wrap flex flex-col-reverse gap-10 xl:flex-row xl:items-center xl:justify-between xl:gap-12">
         <FocusDemo />
-        <div className="flex flex-col gap-[14px] xl:w-[440px] xl:shrink-0">
+        <div data-reveal className="flex flex-col gap-[14px] xl:w-[440px] xl:shrink-0">
           <h2 id="focus-title" className="font-serif text-[clamp(38px,3.4vw,49px)] leading-[1.347] font-medium tracking-[-0.012em] text-heading">
             余墨淡如烟
           </h2>

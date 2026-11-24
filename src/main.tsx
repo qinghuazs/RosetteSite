@@ -13,8 +13,10 @@ import { Faq } from './sections/Faq'
 import { GetRosette } from './sections/GetRosette'
 import { Footer } from './sections/Footer'
 import { Toast } from './components/download'
+import { useReveal } from './components/motion'
 
 function App() {
+  useReveal()
   return (
     <>
       <Hero />

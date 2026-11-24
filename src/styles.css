@@ -124,19 +124,90 @@ body {
 }
 
 /* ---------- 动效 ----------
-   只有一处是「表演」：首屏窗口里光标往返（EditorMock.css）。下面这些都是说明状态变化的，短而安静。
-   缓动统一用指数减速；系统开了「减弱动态效果」时去掉位移和模糊，只保留透明度。 */
+   打开页面：标题逐字落墨，副标题、按钮、窗口依次升起；窗口里随后演示打字和「光标所及即见原文」（EditorMock.css）。
+   往下滚：各区块第一次进入视野时升起一次；示例卡片第一次看到时演示一遍（专注切换、全文搜索、流程图依次出现）。
+   缓动统一用指数减速，退场快于进场；系统开了「减弱动态效果」时去掉位移、模糊和循环，内容直接显示。
+   动画都只在播放期间生效（fill-mode: backwards），播完不再占着 transform。 */
 
-/* 首屏大标题像墨落在纸上：由微微晕开到清晰，只播一次 */
+/* 标题逐字落墨：由晕开、略低到清晰落定 */
 @keyframes ink-in {
   from {
     opacity: 0;
-    filter: blur(6px);
+    filter: blur(8px);
+    transform: translateY(0.12em);
   }
 }
 
-.ink-in {
-  animation: ink-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+.ink-char {
+  display: inline-block;
+  animation: ink-in 1s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+/* 升起：开场和滚动进入视野共用，距离用 --rise 调 */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--rise, 18px));
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+.fade-in {
+  animation: fade-in 0.8s ease-out backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+/* 滚动进入视野：带 data-reveal 的块先藏着，进入视野时 useReveal 给它加上 data-revealed */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+  }
+
+  [data-revealed] {
+    animation: rise-in 0.85s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* 流程图的三步依次出现（切回流程图时也再走一遍） */
+  [data-revealed] .flow-step {
+    --rise: 8px;
+    animation: rise-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: var(--d, 0ms);
+  }
+}
+
+@media print {
+  [data-reveal] {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+/* 全文搜索的命中：结果出现后，黄色底从左往右刷过去 */
+.search-hit {
+  background: linear-gradient(var(--highlight), var(--highlight)) no-repeat 0 0 / 100% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .search-hit {
+    transition: background-size 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+  }
+}
+
+.search-hit[data-pending] {
+  background-size: 0% 100%;
+  transition: none;
 }
 
 /* 演示卡片切换视图：新内容从半透明落定。不从 0 开始，免得每次点击都先闪一下空白 */
@@ -175,7 +246,9 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ink-in {
+  .ink-char,
+  .rise-in,
+  .fade-in {
     animation: none;
   }
 

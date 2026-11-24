@@ -20,16 +20,19 @@ export function Brand({ href }: { href?: string }) {
 type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & { children: ReactNode }
 
 const buttonBase =
-  'inline-flex items-center justify-center whitespace-nowrap rounded-[10px] px-[19px] text-[15px] leading-[23px] font-bold transition-colors'
+  'inline-flex items-center justify-center whitespace-nowrap rounded-[10px] px-[19px] text-[15px] leading-[23px] font-bold transition-[color,background-color,border-color,box-shadow,translate] duration-200 ease-out'
+
+/** 实心按钮悬停时轻轻抬起、落下一点影子；按下回到原位（减弱动态效果时只变色） */
+const lift = 'motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0'
 
 /** 松绿实心按钮（Figma「按钮 / 松绿」） */
 export function PrimaryButton({ className = '', ...props }: LinkProps) {
-  return <a className={`${buttonBase} bg-accent py-[13px] text-white hover:bg-accent-hover ${className}`} {...props} />
+  return <a className={`${buttonBase} bg-accent py-[13px] text-white hover:bg-accent-hover hover:shadow-[0_8px_18px_-8px_rgba(33,61,49,0.6)] ${lift} ${className}`} {...props} />
 }
 
 /** 深色底上的按钮（Figma「按钮 / 浅色」） */
 export function LightButton({ className = '', ...props }: LinkProps) {
-  return <a className={`${buttonBase} bg-button-light py-[13px] text-forest hover:bg-band-heading ${className}`} {...props} />
+  return <a className={`${buttonBase} bg-button-light py-[13px] text-forest hover:bg-band-heading hover:shadow-[0_8px_18px_-8px_rgba(0,0,0,0.5)] ${lift} ${className}`} {...props} />
 }
 
 /** 描边按钮（Figma「按钮 / 描边」） */

@@ -1,3 +1,5 @@
+import { motion } from '../components/motion'
+
 const QUESTIONS = [
   {
     q: '原来的 Markdown 要迁移吗？',
@@ -22,12 +24,12 @@ export function Faq() {
   return (
     <section id="faq" aria-labelledby="faq-title" className="py-16 lg:pt-[89px] lg:pb-[88px]">
       <div className="wrap flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-        <h2 id="faq-title" className="font-serif text-[clamp(34px,2.99vw,43px)] leading-[1.326] font-medium tracking-[-0.025em] text-heading">
+        <h2 id="faq-title" data-reveal className="font-serif text-[clamp(34px,2.99vw,43px)] leading-[1.326] font-medium tracking-[-0.025em] text-heading">
           常见问题
         </h2>
         <dl className="border-t border-divider lg:w-[677px]">
-          {QUESTIONS.map(({ q, a }) => (
-            <div key={q} className="flex flex-col gap-[6px] border-b border-divider pt-[17px] pb-[18px] leading-[25px]">
+          {QUESTIONS.map(({ q, a }, i) => (
+            <div key={q} data-reveal style={motion(i * 80)} className="flex flex-col gap-[6px] border-b border-divider pt-[17px] pb-[18px] leading-[25px]">
               <dt className="text-[17px] font-bold text-ink">{q}</dt>
               <dd className="m-0 max-w-[660px] text-[15px] text-secondary">{a}</dd>
             </div>
