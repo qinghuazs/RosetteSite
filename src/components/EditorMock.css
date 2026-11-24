@@ -298,6 +298,62 @@
   color: var(--m-accent);
 }
 
+/* ---------- 光标所及即见原文（首屏核心动画） ----------
+   光标在加粗那一行（data-cursor="rule"，也是设计稿的静态画面）时显示 **；
+   移到标题行（"heading"）时 ** 缩小淡出、正文随之合拢，标题左侧挂出 ##。光标本身瞬间跳行，与真实编辑器一致。 */
+
+.mock-cursor-line .mock-mark {
+  transition:
+    font-size 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease-out;
+}
+
+.mock-live[data-cursor='heading'] .mock-cursor-line .mock-mark {
+  font-size: 0;
+  opacity: 0;
+}
+
+.mock-caret-at-heading,
+.mock-live[data-cursor='heading'] .mock-caret-at-rule {
+  display: none;
+}
+
+.mock-live[data-cursor='heading'] .mock-caret-at-heading {
+  display: inline;
+}
+
+.mock-heading-line {
+  position: relative;
+}
+
+/* 块级标记挂在正文左侧，不挤动标题 */
+.mock-hang {
+  position: absolute;
+  right: calc(100% + 6 * var(--u));
+  top: 0;
+  font-family: var(--font-mono);
+  font-size: calc(15 * var(--u));
+  font-weight: 400;
+  color: var(--m-accent);
+  opacity: 0;
+  transform: translateX(calc(4 * var(--u)));
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mock-live[data-cursor='heading'] .mock-hang {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mock-cursor-line .mock-mark,
+  .mock-hang {
+    transition: none;
+  }
+}
+
 .mock-caret {
   display: inline-block;
   width: calc(1.5 * var(--u));
@@ -447,6 +503,11 @@
   .mock-h1 {
     font-size: 26px;
     line-height: 34px;
+  }
+
+  .mock-hang {
+    right: calc(100% + 3px);
+    font-size: 11px;
   }
 
   .mock-p,

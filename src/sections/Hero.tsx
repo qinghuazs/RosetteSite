@@ -30,7 +30,7 @@ export function Hero() {
       </div>
 
       <div className="wrap flex flex-col items-center gap-[13px] pt-[35px] text-center">
-        <h1 className="font-serif text-[clamp(60px,6.18vw,89px)] leading-[1.236] font-medium tracking-[-0.012em] text-heading">
+        <h1 className="ink-in font-serif text-[clamp(60px,6.18vw,89px)] leading-[1.236] font-medium tracking-[-0.012em] text-heading">
           落笔见章法
         </h1>
         <p className="text-[16px] leading-[26px] text-text sm:text-[17px]">

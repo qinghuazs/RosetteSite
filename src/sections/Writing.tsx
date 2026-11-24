@@ -89,6 +89,12 @@ function MathView() {
 /** 技术写作示例（Figma 组件「官网 / 技术写作演示」，View = Flow / Table / Math） */
 function WritingDemo() {
   const [view, setView] = useState<View>('flow')
+  // 只有访客切换过视图，新内容才淡入；首次打开直接显示
+  const [switched, setSwitched] = useState(false)
+  const choose = (next: View) => {
+    setSwitched(true)
+    setView(next)
+  }
   const { title, desc } = CONTENT[view]
 
   return (
@@ -98,10 +104,10 @@ function WritingDemo() {
           <img src={fileIcon} alt="" width={15} height={15} className="shrink-0" />
           <span className="text-[13px] leading-5 font-medium whitespace-nowrap text-accent">接口限流方案.md</span>
         </span>
-        <Segmented label="排版示例" options={VIEWS} value={view} onChange={setView} selectedWeight="font-bold" itemPadding="px-[9px] sm:px-3" />
+        <Segmented label="排版示例" options={VIEWS} value={view} onChange={choose} selectedWeight="font-bold" itemPadding="px-[9px] sm:px-3" />
       </div>
       <div className="h-px bg-divider" />
-      <div className="flex flex-col items-start gap-[9px] xl:h-[209px]">
+      <div key={view} className={`${switched ? 'swap-in ' : ''}flex flex-col items-start gap-[9px] xl:h-[209px]`}>
         <p className="text-[24px] leading-[33px] font-bold text-heading sm:text-[27px] sm:leading-9">{title}</p>
         <p className="text-[14px] leading-[21px] text-text">{desc}</p>
         {view === 'flow' && <FlowView />}

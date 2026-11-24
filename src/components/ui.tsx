@@ -1,4 +1,4 @@
-import type { AnchorHTMLAttributes, ReactNode } from 'react'
+import { useLayoutEffect, useRef, useState, type AnchorHTMLAttributes, type ReactNode } from 'react'
 import appIcon from '../assets/app-icon.png'
 
 /** 应用图标 + “Rosette”字样（Figma 组件「Rosette / 品牌」） */
@@ -44,8 +44,8 @@ export function OutlineButton({ className = '', ...props }: LinkProps) {
 
 /**
  * 示例卡片右上角的切换按钮（Figma「写作视图」「查看不同排版示例」）。
- * 两处的差别只在选中项的字重（专注写作 Medium，技术写作 Bold）。每一项高 30、左右 12（技术写作在手机上收成 9，免得挤掉文件名）；
- * 选中项白底加细阴影，看得出是能按的按钮。
+ * 两处的差别只在选中项的字重（专注写作 Medium，技术写作 Bold）。每一项高 30、左右 12（技术写作在手机上收成 9，免得挤掉文件名）。
+ * 选中项下面垫一块白底加细阴影，切换时滑到新选项上，一眼看得出是开关。
  */
 export function Segmented<T extends string>({
   label,
@@ -62,8 +62,35 @@ export function Segmented<T extends string>({
   selectedWeight?: 'font-medium' | 'font-bold'
   itemPadding?: 'px-3' | 'px-[9px] sm:px-3'
 }) {
+  const groupRef = useRef<HTMLDivElement>(null)
+  const [pill, setPill] = useState<{ left: number; width: number; instant: boolean } | null>(null)
+  const measuredValue = useRef<T | null>(null)
+
+  // 在绘制前量好选中项的位置；只有换了选项才滑过去，字体加载完、窗口变化导致的重新测量直接到位
+  useLayoutEffect(() => {
+    const group = groupRef.current
+    if (!group) return
+    const measure = (instant: boolean) => {
+      const selected = group.querySelector<HTMLElement>('button[aria-pressed="true"]')
+      if (!selected) return
+      const left = selected.offsetLeft
+      const width = selected.offsetWidth
+      // 位置没变就不更新：尺寸监听建立时会立刻回调一次，不能打断正在进行的滑动
+      setPill((prev) => (prev && prev.left === left && prev.width === width ? prev : { left, width, instant }))
+    }
+    measure(measuredValue.current === null || measuredValue.current === value)
+    measuredValue.current = value
+    const observer = new ResizeObserver(() => measure(true))
+    group.querySelectorAll('button').forEach((button) => observer.observe(button))
+    return () => observer.disconnect()
+  }, [value])
+
+  const pillLook = 'bg-paper shadow-[0_1px_3px_rgba(24,58,42,0.16)]'
   return (
-    <div role="group" aria-label={label} className="flex shrink-0 items-center gap-[2px] rounded-[7px] bg-wash-strong p-[3px]">
+    <div ref={groupRef} role="group" aria-label={label} className="relative flex shrink-0 items-center gap-[2px] rounded-[7px] bg-wash-strong p-[3px]">
+      {pill && (
+        <span aria-hidden="true" className={`segment-pill absolute top-[3px] bottom-[3px] rounded-[5px] ${pillLook}`} style={{ left: pill.left, width: pill.width, transition: pill.instant ? 'none' : undefined }} />
+      )}
       {options.map((option) => {
         const selected = option.value === value
         return (
@@ -72,10 +99,8 @@ export function Segmented<T extends string>({
             type="button"
             aria-pressed={selected}
             onClick={() => onChange(option.value)}
-            className={`rounded-[5px] ${itemPadding} py-[5px] text-[13px] leading-5 whitespace-nowrap transition-colors ${
-              selected
-                ? `bg-paper ${selectedWeight} text-heading shadow-[0_1px_3px_rgba(24,58,42,0.16)]`
-                : 'cursor-pointer text-text hover:bg-paper/50 hover:text-heading'
+            className={`relative rounded-[5px] ${itemPadding} py-[5px] text-[13px] leading-5 whitespace-nowrap transition-colors ${
+              selected ? `${selectedWeight} text-heading ${pill ? '' : pillLook}` : 'cursor-pointer text-text hover:bg-paper/40 hover:text-heading'
             }`}
           >
             {option.label}

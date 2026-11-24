@@ -122,3 +122,91 @@ body {
     opacity: 0;
   }
 }
+
+/* ---------- 动效 ----------
+   只有一处是「表演」：首屏窗口里光标往返（EditorMock.css）。下面这些都是说明状态变化的，短而安静。
+   缓动统一用指数减速；系统开了「减弱动态效果」时去掉位移和模糊，只保留透明度。 */
+
+/* 首屏大标题像墨落在纸上：由微微晕开到清晰，只播一次 */
+@keyframes ink-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+
+.ink-in {
+  animation: ink-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 演示卡片切换视图：新内容从半透明落定。不从 0 开始，免得每次点击都先闪一下空白 */
+@keyframes swap-in {
+  from {
+    opacity: 0.5;
+    transform: translateY(3px);
+  }
+}
+
+.swap-in {
+  animation: swap-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 底部提示条进出 */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.toast-in {
+  animation: toast-in 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast-out {
+  animation: toast-out 0.15s ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-in {
+    animation: none;
+  }
+
+  @keyframes swap-in {
+    from {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes toast-out {
+    to {
+      opacity: 0;
+    }
+  }
+}
+
+/* 切换按钮的选中块滑到新选项上 */
+.segment-pill {
+  transition:
+    left 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segment-pill {
+    transition: none;
+  }
+}

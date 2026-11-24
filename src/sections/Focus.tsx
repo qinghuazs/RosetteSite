@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import fileIcon from '../assets/icons/file-15.svg'
 import { Segmented } from '../components/ui'
 
@@ -9,20 +9,55 @@ const MODES: { value: Mode; label: string }[] = [
   { value: 'focused', label: '专注' },
 ]
 
-/** 专注写作示例（Figma 组件「官网 / 专注写作演示」，Mode = Normal / Focused）：专注时淡化光标所在段落以外的内容 */
+/**
+ * 专注写作示例（Figma 组件「官网 / 专注写作演示」，Mode = Normal / Focused）：专注时淡化光标所在段落以外的内容。
+ * 默认就是设计稿的「专注」；卡片还在视野之外时先换成「普通」，第一次滚进视野后再切到「专注」，让人亲眼看到其他段落变淡。
+ * 访客自己点过就不再自动切换；系统开了「减弱动态效果」时不做这一步。
+ */
 function FocusDemo() {
   const [mode, setMode] = useState<Mode>('focused')
+  const cardRef = useRef<HTMLDivElement>(null)
+  const touched = useRef(false)
   const focused = mode === 'focused'
-  const others = `transition-colors duration-300 ${focused ? 'text-faded' : ''}`
+  const others = `transition-colors duration-500 ease-out ${focused ? 'text-faded' : ''}`
+
+  useLayoutEffect(() => {
+    const card = cardRef.current
+    if (!card || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const box = card.getBoundingClientRect()
+    if (box.top < window.innerHeight && box.bottom > 0) return // 一打开就看得到（例如从 #focus 进来），保持原样
+    setMode('normal')
+    let timer: number | undefined
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        io.disconnect()
+        timer = window.setTimeout(() => {
+          if (!touched.current) setMode('focused')
+        }, 600)
+      },
+      { threshold: 0.6 },
+    )
+    io.observe(card)
+    return () => {
+      io.disconnect()
+      window.clearTimeout(timer)
+    }
+  }, [])
+
+  const choose = (next: Mode) => {
+    touched.current = true
+    setMode(next)
+  }
 
   return (
-    <div className="flex w-full flex-col gap-3 rounded-[12px] border border-divider bg-card px-4 py-[18px] sm:px-[25px] xl:h-[266px] xl:w-[628px] xl:shrink-0">
+    <div ref={cardRef} className="flex w-full flex-col gap-3 rounded-[12px] border border-divider bg-card px-4 py-[18px] sm:px-[25px] xl:h-[266px] xl:w-[628px] xl:shrink-0">
       <div className="flex items-center justify-between gap-4">
         <span className="flex min-w-0 items-center gap-[7px]">
           <img src={fileIcon} alt="" width={15} height={15} className="shrink-0" />
           <span className="truncate text-[13px] leading-5 text-text">接口限流方案.md</span>
         </span>
-        <Segmented label="写作模式" options={MODES} value={mode} onChange={setMode} />
+        <Segmented label="写作模式" options={MODES} value={mode} onChange={choose} />
       </div>
       <div className="h-px bg-divider" />
       <div className="flex flex-col gap-[11px] pt-[3px] pl-[6px]">

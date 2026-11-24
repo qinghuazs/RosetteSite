@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
 import windowControls from '../assets/icons/mock-window-controls.svg'
 import sidebarIcon from '../assets/icons/mock-sidebar.svg'
 import searchIcon from '../assets/icons/mock-search.svg'
@@ -8,6 +8,8 @@ import checkIcon from '../assets/icons/mock-check.svg'
 import './EditorMock.css'
 
 type View = 'live' | 'source'
+/** 光标在哪一行：加粗的那一行，或下面「超限响应」标题 */
+type CursorLine = 'rule' | 'heading'
 
 const FILES = [
   { name: '项目文档', icon: folderIcon },
@@ -25,10 +27,13 @@ function Caret() {
   return <span className="mock-caret" aria-hidden="true" />
 }
 
-/** 即时预览：排好版的正文，光标所在的那一行显示 Markdown 标记 */
-function LiveView() {
+/**
+ * 即时预览：排好版的正文，只有光标所在的那一行显示 Markdown 标记。
+ * 光标离开加粗那一行时 ** 收起，进到标题行时左侧挂出 ##（与应用的即时预览一致）。
+ */
+function LiveView({ cursor }: { cursor: CursorLine }) {
   return (
-    <div className="mock-live">
+    <div className="mock-live" data-cursor={cursor}>
       <div className="mock-head">
         <p className="mock-h1">接口限流方案</p>
         <p className="mock-meta">项目文档 · 今天 10:24 更新</p>
@@ -40,12 +45,22 @@ function LiveView() {
           <Mark>**</Mark>
           <strong>超出上限</strong>
           <Mark>**</Mark>
-          <Caret />
+          <span className="mock-caret-at-rule">
+            <Caret />
+          </span>
           时，返回 429，并告知客户端等待时间。
         </p>
       </div>
       <div className="mock-block">
-        <p className="mock-h2">超限响应</p>
+        <p className="mock-h2 mock-heading-line">
+          <span className="mock-hang" aria-hidden="true">
+            ##
+          </span>
+          超限响应
+          <span className="mock-caret-at-heading">
+            <Caret />
+          </span>
+        </p>
         <div className="mock-code">
           <p className="mock-code-lang">HTTP</p>
           <p className="mock-code-line">
@@ -94,12 +109,56 @@ function SourceView() {
 }
 
 /** 首屏的编辑器示意：可以在即时预览和源码之间切换，也可以看深色外观 */
+/**
+ * 首屏的核心动画：光标在加粗那一行和标题行之间往返，演示「光标所及即见原文」。
+ * 只在窗口进入视野、页面在前台、处于即时预览时播放；系统开了「减弱动态效果」就停在设计稿的静态画面。
+ */
+function useCursorDemo(root: RefObject<HTMLDivElement | null>, active: boolean) {
+  const [cursor, setCursor] = useState<CursorLine>('rule')
+  const current = useRef<CursorLine>('rule')
+  useEffect(() => {
+    const el = root.current
+    if (!active || !el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let visible = false
+    let timer: number | undefined
+    const schedule = () => {
+      window.clearTimeout(timer)
+      if (!visible || document.hidden) return
+      // 停在加粗那一行久一些，让人看清 ** 标记
+      timer = window.setTimeout(() => {
+        current.current = current.current === 'rule' ? 'heading' : 'rule'
+        setCursor(current.current)
+        schedule()
+      }, current.current === 'rule' ? 2800 : 2000)
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting && entry.intersectionRatio >= 0.4
+        schedule()
+      },
+      { threshold: [0, 0.4, 1] },
+    )
+    io.observe(el)
+    document.addEventListener('visibilitychange', schedule)
+    return () => {
+      io.disconnect()
+      window.clearTimeout(timer)
+      document.removeEventListener('visibilitychange', schedule)
+    }
+  }, [root, active])
+  return cursor
+}
+
 export function EditorMock() {
   const [view, setView] = useState<View>('live')
   const [dark, setDark] = useState(false)
+  // 只有访客切换过视图，新内容才淡入；首次打开直接显示
+  const [switched, setSwitched] = useState(false)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const cursor = useCursorDemo(rootRef, view === 'live')
 
   return (
-    <div className="mock" data-theme={dark ? 'dark' : 'light'} role="group" aria-label="Rosette 编辑器界面示意">
+    <div ref={rootRef} className="mock" data-theme={dark ? 'dark' : 'light'} role="group" aria-label="Rosette 编辑器界面示意">
       <div className="mock-toolbar">
         <div className="mock-title">
           <img className="mock-controls" src={windowControls} alt="" />
@@ -107,10 +166,10 @@ export function EditorMock() {
           <span className="mock-filename">接口限流方案.md</span>
         </div>
         <div className="mock-views">
-          <button type="button" aria-pressed={view === 'live'} onClick={() => setView('live')}>
+          <button type="button" aria-pressed={view === 'live'} onClick={() => { setSwitched(true); setView('live') }}>
             即时预览
           </button>
-          <button type="button" aria-pressed={view === 'source'} onClick={() => setView('source')}>
+          <button type="button" aria-pressed={view === 'source'} onClick={() => { setSwitched(true); setView('source') }}>
             源码
           </button>
           <button type="button" aria-pressed={dark} onClick={() => setDark((d) => !d)}>
@@ -138,7 +197,11 @@ export function EditorMock() {
             ))}
           </ul>
         </div>
-        <div className="mock-doc">{view === 'live' ? <LiveView /> : <SourceView />}</div>
+        <div className="mock-doc">
+          <div key={view} className={switched ? 'swap-in' : undefined}>
+            {view === 'live' ? <LiveView cursor={cursor} /> : <SourceView />}
+          </div>
+        </div>
       </div>
 
       <div className="mock-status">

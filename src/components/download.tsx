@@ -54,27 +54,38 @@ export function useDownload() {
   }
 }
 
-/** 页面底部的提示条，显示 2 秒（Figma「点击后：已复制提示」） */
+/** 页面底部的提示条，显示 2 秒（Figma「点击后：已复制提示」）；升起出现，退场比进场快 */
 export function Toast() {
-  const [message, setMessage] = useState<string | null>(null)
+  const [toastState, setToastState] = useState<{ message: string; id: number; leaving: boolean } | null>(null)
   useEffect(() => {
-    let timer: number | undefined
+    let hideTimer: number | undefined
+    let removeTimer: number | undefined
+    let id = 0
     const show = (event: Event) => {
-      setMessage((event as CustomEvent<string>).detail)
-      window.clearTimeout(timer)
-      timer = window.setTimeout(() => setMessage(null), 2000)
+      window.clearTimeout(hideTimer)
+      window.clearTimeout(removeTimer)
+      id += 1
+      setToastState({ message: (event as CustomEvent<string>).detail, id, leaving: false })
+      hideTimer = window.setTimeout(() => {
+        setToastState((current) => (current ? { ...current, leaving: true } : current))
+        removeTimer = window.setTimeout(() => setToastState(null), 150)
+      }, 2000)
     }
     window.addEventListener(TOAST_EVENT, show)
     return () => {
       window.removeEventListener(TOAST_EVENT, show)
-      window.clearTimeout(timer)
+      window.clearTimeout(hideTimer)
+      window.clearTimeout(removeTimer)
     }
   }, [])
   return (
     <div role="status" aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-4">
-      {message && (
-        <span className="rounded-full bg-band px-[14px] py-[9px] text-[13px] leading-5 font-medium text-band-heading shadow-[0_8px_24px_rgba(24,58,42,0.25)]">
-          {message}
+      {toastState && (
+        <span
+          key={toastState.id}
+          className={`${toastState.leaving ? 'toast-out' : 'toast-in'} rounded-full bg-band px-[14px] py-[9px] text-[13px] leading-5 font-medium text-band-heading shadow-[0_8px_24px_rgba(24,58,42,0.25)]`}
+        >
+          {toastState.message}
         </span>
       )}
     </div>
