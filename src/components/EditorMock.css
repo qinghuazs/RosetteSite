@@ -1,6 +1,6 @@
-/* 首屏的编辑器示意窗口（Figma 44:294「Rosette 编辑器 · 即时预览」）。
-   设计稿是把 720 宽的界面放大 1.248 倍（898.56 宽）摆在 1240 宽的底衬里，所以尺寸都写成 N × --u：
-   桌面上 --u = 1.248px，与设计稿逐像素一致；底衬变窄时按宽度等比缩小；再窄（手机）改成单栏、--u = 1px、文字换行。
+/* 首屏的编辑器示意窗口（Figma 53:294「Rosette 编辑器 · 即时预览」）。
+   设计稿是把 720 宽的界面放大约 1.344 倍（967.75 宽）摆在 1240 宽的纸面底衬里，所以尺寸都写成 N × --u：
+   桌面上 --u = 1.3441px，与设计稿逐像素一致；底衬变窄时按宽度等比缩小；再窄（手机）改成单栏、--u = 1px、文字换行。
    配色与应用一致：浅色取设计稿，深色取应用 web/src/editor.css 的深色变量。 */
 
 .mock-stage {
@@ -8,7 +8,7 @@
 }
 
 .mock {
-  --u: min(1.248px, 100cqw / 720);
+  --u: min(1.344096px, 100cqw / 720);
 
   --m-canvas: #fcfcfa;
   --m-chrome: #f4f5f1;
@@ -31,7 +31,7 @@
   border-radius: calc(13 * var(--u));
   background: var(--m-canvas);
   color: var(--m-ink);
-  box-shadow: 0 14px 38px rgba(39, 69, 54, 0.21);
+  box-shadow: 0 2px 6px rgba(24, 58, 42, 0.05), 0 18px 46px rgba(24, 58, 42, 0.18);
   font-family: var(--font-sans);
   font-size: calc(11 * var(--u));
   line-height: calc(17 * var(--u));
@@ -52,7 +52,7 @@
   --m-code: #252e27;
   /* 图标是设计稿导出的深绿描边，深色底上调亮成浅灰绿 */
   --m-icon-filter: invert(1) hue-rotate(180deg) brightness(1.25);
-  box-shadow: 0 14px 38px rgba(20, 36, 28, 0.32);
+  box-shadow: 0 2px 6px rgba(12, 30, 22, 0.08), 0 18px 46px rgba(12, 30, 22, 0.3);
 }
 
 @media (prefers-reduced-motion: no-preference) {

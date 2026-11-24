@@ -12,7 +12,7 @@ Rosette 是 macOS 上的本地 Markdown 编辑器。
 
 ## 官网
 
-按 Figma「Rosette 官网 · 桌面设计稿」的「完整官网 · A 纸面版」（文件 `E0q2KIc87foDgm8rb4SUdA`，节点 44:278）实现的单页静态网站，1440 宽时与设计稿逐像素对齐，窄屏改为单栏。
+按 Figma「Rosette 官网 · 桌面设计稿」的「完整官网 · 纸面精修版」（文件 `E0q2KIc87foDgm8rb4SUdA`，节点 53:278）实现的单页静态网站，1440 宽时与设计稿逐像素对齐（整页 3513 高），窄屏改为单栏。三个示例可以点：首屏窗口切换即时预览 / 源码 / 深色外观，专注写作卡片切换普通 / 专注，技术写作卡片切换流程图 / 表格 / 公式（分别对应设计稿里的组件变体 61:395、62:420）。
 技术栈与 MaClean 官网相同：Vite 8 + React 19 + TypeScript + Tailwind CSS v4，没有后端。
 
 ```bash
@@ -30,9 +30,10 @@ vite.config.ts               构建；把 appcast.xml 原样放进 dist/，并�
 src/site.config.ts           下载地址、版本发布页
 src/styles.css               设计变量（颜色、字体）与 Tailwind 主题
 src/components/EditorMock.*  首屏的编辑器示意窗口（可切换即时预览 / 源码 / 深色外观）
-src/components/ui.tsx        品牌、按钮
-src/sections/                首屏、本地文件、技术写作、常见问题、获取 Rosette、页脚
-src/assets/                  应用图标（取自代码仓库 Support/Icon/AppIcon-1024.png）与设计稿导出的图标
+src/components/ui.tsx        品牌、按钮、示例卡片的切换按钮
+src/sections/                首屏、专注写作、本地文件、技术写作、常见问题、获取 Rosette、页脚
+src/assets/                  应用图标（取自代码仓库 Support/Icon/AppIcon-1024.png）、设计稿导出的图标、
+                             首屏纸纹底图（设计稿导出的 PNG 有 2.4 MB，按原分辨率转成 WebP，165 KB）
 ```
 
 ### 下载按钮跟着版本清单走

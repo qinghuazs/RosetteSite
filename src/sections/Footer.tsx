@@ -21,10 +21,10 @@ function FooterLinks({ title, links, width }: { title: string; links: FooterLink
   )
 }
 
-/** 页脚（Figma 48:388） */
+/** 页脚（Figma 53:379） */
 export function Footer() {
   return (
-    <footer className="wrap mt-[58px] border-t border-line">
+    <footer className="wrap mt-[51px] border-t border-line">
       <div className="grid grid-cols-2 gap-x-6 gap-y-8 pt-8 pb-11 lg:flex lg:items-start lg:justify-between">
         <div className="col-span-2 flex flex-col gap-[10px] lg:w-[406px]">
           <Brand />

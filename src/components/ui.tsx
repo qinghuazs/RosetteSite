@@ -36,3 +36,44 @@ export function OutlineButton({ className = '', ...props }: LinkProps) {
     />
   )
 }
+
+/**
+ * 示例卡片右上角的切换按钮（Figma「写作视图」「查看不同排版示例」）。
+ * 两处的差别只在选中项的字重（专注写作 Medium，技术写作 Bold）和左右内边距（10 / 9，手机上 9 收成 7）。
+ */
+export function Segmented<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+  selectedWeight = 'font-medium',
+  itemPadding = 'px-[10px]',
+}: {
+  label: string
+  options: { value: T; label: string }[]
+  value: T
+  onChange: (value: T) => void
+  selectedWeight?: 'font-medium' | 'font-bold'
+  itemPadding?: 'px-[10px]' | 'px-[7px] sm:px-[9px]'
+}) {
+  return (
+    <div role="group" aria-label={label} className="flex shrink-0 items-center gap-[2px] rounded-[7px] bg-segment p-[3px]">
+      {options.map((option) => {
+        const selected = option.value === value
+        return (
+          <button
+            key={option.value}
+            type="button"
+            aria-pressed={selected}
+            onClick={() => onChange(option.value)}
+            className={`rounded-[5px] ${itemPadding} py-1 text-[13px] leading-5 whitespace-nowrap transition-colors ${
+              selected ? `bg-segment-on ${selectedWeight} text-heading` : 'cursor-pointer text-text hover:text-heading'
+            }`}
+          >
+            {option.label}
+          </button>
+        )
+      })}
+    </div>
+  )
+}

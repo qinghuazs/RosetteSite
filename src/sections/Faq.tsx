@@ -17,10 +17,10 @@ const QUESTIONS = [
   },
 ]
 
-/** 常见问题（Figma 44:355「使用与安装」） */
+/** 常见问题（Figma 53:360「使用与安装」） */
 export function Faq() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="py-16 lg:py-[92px]">
+    <section id="faq" aria-labelledby="faq-title" className="py-16 lg:pt-[89px] lg:pb-[88px]">
       <div className="wrap flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
         <h2 id="faq-title" className="font-serif text-[clamp(34px,2.99vw,43px)] leading-[1.326] font-medium tracking-[-0.025em] text-heading">
           常见问题
