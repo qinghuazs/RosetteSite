@@ -3,3 +3,6 @@ dist
 .DS_Store
 *.local
 .vercel
+
+# tsc -b 的增量编译缓存
+*.tsbuildinfo
