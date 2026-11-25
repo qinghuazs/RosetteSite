@@ -7,6 +7,14 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     <description>Rosette 的版本更新</description>
     <language>zh-cn</language>
     <item>
+      <title>Rosette 1.0.1</title>
+      <pubDate>Wed, 25 Nov 2026 01:03:10 +0000</pubDate>
+      <sparkle:version>202611250101</sparkle:version>
+      <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+      <enclosure url="https://github.com/qinghuazs/RosetteSite/releases/download/v1.0.1/Rosette-1.0.1.dmg" type="application/octet-stream" sparkle:edSignature="q3wWZevDoU97ClcdfS64+v8WCXFPuKXJJz8agRTPimtSpr7PrdqNv8lT2E7pUJ+K+KhUIw+VLMMCWK9jLIhZAQ==" length="9947872" />
+    </item>
+    <item>
       <title>Rosette 1.0.0</title>
       <pubDate>Tue, 24 Nov 2026 01:49:50 +0000</pubDate>
       <sparkle:version>202611240145</sparkle:version>
@@ -16,6 +24,6 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     </item>
   </channel>
 </rss><!-- sparkle-signatures:
-edSignature: eLygL2kQdLnApX3x7IZXtxnGrkqJKv6AEMjOgpZPtU6Tn0YvKjJAY2oXwz9xEcIFEdu5EWCx8XeGcGAL6g8OAA==
-length: 1172
+edSignature: advy+DZADgB9/6UNnh7rSx8sDj5cg3AvUi7IqvEvj/VNjQd8PWj/ICCtypjRHnYYbF2kpaKmk7GcskMYAgvDBw==
+length: 1752
 -->
