@@ -12,6 +12,20 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
       <sparkle:version>202611250101</sparkle:version>
       <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+      <description><![CDATA[
+<ul>
+  <li>从欢迎窗口、⌃⌘O 或“最近打开”打开文件夹时，现在会正常出现工作区窗口。</li>
+  <li>退出后恢复回来的未命名文档会标为未保存，关闭时先询问，不会直接丢掉内容。</li>
+  <li>只读文件的修改不再被写回原文件，而是备份到恢复草稿，可以用“另存为…”存到别处。</li>
+  <li>重命名、移动文件后自动更新链接时，保留文件的 Finder 标签和创建日期；多个窗口同时整理文件时依次进行，链接不会失效。</li>
+  <li>⌘ 点击指向应用、脚本或安装包的链接时，先询问是在访达中显示还是打开，不再直接运行。</li>
+  <li>在查找框、搜索框里按 ⌘Z 只撤销输入框里的输入，不动正文。</li>
+  <li>表格：格子里按 ⇧↵ 插入换行；引用和列表里的表格按 ↵ 不再被拆开；格子里的竖线不再被重复转义。</li>
+  <li>代码块：缩进不再带上结尾的围栏；选中包含代码块的文字再加粗，不会改动代码。</li>
+  <li>地址里带空格、#、?、% 或尖括号的图片和链接，现在都能正确显示和打开。</li>
+  <li>其他稳定性改进。</li>
+</ul>
+      ]]></description>
       <enclosure url="https://github.com/qinghuazs/RosetteSite/releases/download/v1.0.1/Rosette-1.0.1.dmg" type="application/octet-stream" sparkle:edSignature="q3wWZevDoU97ClcdfS64+v8WCXFPuKXJJz8agRTPimtSpr7PrdqNv8lT2E7pUJ+K+KhUIw+VLMMCWK9jLIhZAQ==" length="9947872" />
     </item>
     <item>
@@ -24,6 +38,6 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     </item>
   </channel>
 </rss><!-- sparkle-signatures:
-edSignature: advy+DZADgB9/6UNnh7rSx8sDj5cg3AvUi7IqvEvj/VNjQd8PWj/ICCtypjRHnYYbF2kpaKmk7GcskMYAgvDBw==
-length: 1752
+edSignature: 53ovfSVqQ3BJdeHthW1p+OEl/i5p8Nk8bzkZvQWPGNOG6o8sox15yzJJSps540R+roUPx1tc8rXW4Su22y04Dw==
+length: 3020
 -->
